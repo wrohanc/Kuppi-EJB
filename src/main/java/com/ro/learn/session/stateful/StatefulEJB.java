@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * Created by rohan on 2016-11-26.
  */
+//@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
+//@AccessTimeout(value=60, unit=TimeUnit.SECONDS)
 @Stateful(name = "StatefulEJB")//todo cannot be a web service or rest
 public class StatefulEJB implements StatefulEJBRemote {
     private ArrayList list;
@@ -39,16 +41,21 @@ public class StatefulEJB implements StatefulEJBRemote {
         System.out.println("StatefulEJB.PostActivate called :" + new Date());
     }
 
+
+    //@Lock(LockType.WRITE)
     public void addItem(String item) {
         list.add(item);
         System.out.println(list);
     }
 
+
+    //@Lock(LockType.WRITE)
+    //@AccessTimeout(value=120000)
     public void removeItem(String item) {
         list.remove(item);
         System.out.println(list);
     }
-
+    //@Lock(LockType.READ)
     //@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     //@TransactionAttribute(TransactionAttributeType.MANDATORY)
     //@TransactionAttribute(TransactionAttributeType.NEVER)
